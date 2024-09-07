@@ -2,10 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Post = require('./models/Post');
 const bcrypt = require('bcrypt');
 const app = express();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/'});
+const fs = require('fs');
 
 
 const salt = bcrypt.genSaltSync(10);
@@ -17,6 +21,7 @@ app.use(cookieParser());
 
 mongoose.connect('mongodb+srv://blogify:ZrgEdVZWuO8CsiEJ@cluster0.pc7cm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
+//Register endpoint
 
 app.post('/register', async (req, res) => {
     const {username, password} = req.body; 
@@ -31,22 +36,27 @@ app.post('/register', async (req, res) => {
     }
 });
 
+
+//Login endpoint
+
 app.post('/login', async (req, res) => {
     const {username, password} = req.body;
     const userDoc = await User.findOne({username});
-    if (!userDoc) {
-        return res.status(400).json('Incorrect credentials');
-    }
     const passOk = bcrypt.compareSync(password, userDoc.password);
     if (passOk) {
         jwt.sign({username, id:userDoc._id}, secret, {}, (err,token) => {
             if (err) throw err;
-            res.cookie('token', token).json('ok'); //setting the token to the real token when logged in
-        })
+            res.cookie('token', token).json({
+                id: userDoc._id,
+                username,
+            }); //setting the token to the real token when logged in
+        });
     } else {
         res.status(400).json('Incorrect credentials');
     }
 });
+
+//Profile endpoint
 
 app.get('/profile', (req, res) => {
     const {token} = req.cookies; //grabbing token from req.cookies
@@ -57,8 +67,35 @@ app.get('/profile', (req, res) => {
     });
 })
 
+//Logout endpoint
+
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json('ok'); //setting the token to an empty string and the json as ok
+});
+
+
+//Create post endpoint
+
+app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+    const {originalname, path} = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    fs.renameSync(path, newPath);
+
+    const {title, summary, content} = req.body;
+    const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover:newPath
+    })
+    res.json(postDoc);
+});
+
+
+app.get('/post', async (req, res) =>{
+   res.json(await Post.find());
 })
 
 app.listen(4000, () => {

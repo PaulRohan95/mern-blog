@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
+import {UserContext} from "./UserContext";
 
 export default function Header() {
-    const [username, setUsername] = useState(null);
+    const {setUserInfo,userInfo} = useContext(UserContext);
     useEffect(() => {
         fetch('http://localhost:4000/profile', {
             credentials: 'include',
         }).then(response => {
             response.json().then(userInfo => {
-                setUsername(userInfo.username);
+                setUserInfo(userInfo);
             })
         })
     }, []);
@@ -20,8 +20,10 @@ function logout() { //invalidate the token, hence the logged in state will be nu
         credentials: 'include',
         method: 'POST',
     });
-    setUsername(null);
+    userInfo(null);
 }
+
+const username = userInfo?.username;
 
     return(
         <header>
@@ -30,7 +32,7 @@ function logout() { //invalidate the token, hence the logged in state will be nu
             {username && (
                 <>
                     <Link to="/create">Create new post</Link>
-                    <a href="#" onClick={logout}>Logout</a>
+                    <a onClick={logout}>Logout</a>
                 </>
             )}
             {!username && (

@@ -1,8 +1,8 @@
-import ReactQuill from "react-quill-new";
-// import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {useState} from "react";
 import { Navigate } from "react-router-dom";
+
 
 const modules = {
     toolbar: [
@@ -62,7 +62,6 @@ export default function CreatePost () {
                     onChange={e => setSummary(e.target.value)} />
 
             <input type="file"
-                    // value={files}
                     onChange={e => setFiles(e.target.files)} />
 
             <ReactQuill value={content}
