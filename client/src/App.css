@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+a {
+  cursor: pointer;
+}
+
 body {
   color: #333;
 }
@@ -12,7 +16,7 @@ img {
 
 main {
   padding: 10px;
-  max-width: 500px;
+  max-width: 960px;
    margin: 0 auto; /*auto because it should be centered */
 }
 
@@ -31,6 +35,10 @@ header a.logo {
   font-weight: bold;
 }
 
+header a.createPost {
+  font-weight: bold;
+}
+
 header nav {
   display: flex;
   gap: 5px;
@@ -38,8 +46,15 @@ header nav {
 
 div.post {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr;
+  /* grid-template-columns: 0.9fr 1.1fr; */
   gap: 20px;
+}
+
+@media screen and (min-width: 700px) {
+  div.post {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
 }
 
 div.post div.texts h2 {
@@ -108,6 +123,7 @@ div.post-page div.image {
 div.post-page div.image img {
   object-fit: cover;
   object-position: center center;
+  width: 100%;
 }
 
 div.post-page a {
@@ -132,4 +148,29 @@ div.post-page div.author {
   margin-bottom: 20px;
   font-size: 0.8rem;
   font-weight: bold;
+}
+
+div.post-page div.content p {
+  line-height: 1.6rem;
+}
+
+div.edit-row {
+  text-align: center;
+}
+
+div.post-page a.edit-btn {
+  background-color: #333;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+a svg {
+  height: 20px;
+
 }
