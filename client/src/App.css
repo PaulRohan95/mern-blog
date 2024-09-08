@@ -47,6 +47,11 @@ div.post div.texts h2 {
   font-size: 1.6rem;
 }
 
+div.post div.texts a {
+  text-decoration: none;
+  color: inherit;
+}
+
 div.post p.info {
   margin: 6px 0;
   color: #888;
@@ -90,6 +95,41 @@ button {
   padding: 8px 0;
 }
 
-form h1 {
+form.login h1 form.register h1 {
   text-align: center;
+}
+
+div.post-page div.image {
+  max-height: 200px;
+  display: flex;
+  overflow: hidden;
+}
+
+div.post-page div.image img {
+  object-fit: cover;
+  object-position: center center;
+}
+
+div.post-page a {
+  color: #333;
+  text-decoration: underline;
+}
+
+div.post-page h1 {
+  text-align: center;
+  margin: 10px 0 10px 5px;
+}
+
+div.post-page time {
+  text-align: center;
+  display: block;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+div.post-page div.author {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
