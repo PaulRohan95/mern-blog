@@ -20,7 +20,7 @@ function logout() { //invalidate the token, hence the logged in state will be nu
         credentials: 'include',
         method: 'POST',
     });
-    userInfo(null);
+    setUserInfo(null);
 }
 
 const username = userInfo?.username;
