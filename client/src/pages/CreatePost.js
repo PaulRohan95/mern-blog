@@ -1,4 +1,3 @@
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {useState} from "react";
 import { Navigate } from "react-router-dom";
@@ -21,7 +20,7 @@ export default function CreatePost () {
 
         e.preventDefault();
         console.log(files);
-        const response = await fetch('http://localhost:4000/post', {
+        const response = await fetch('https://mern-blog-2996.onrender.com/post', {
             method: 'POST',
             body: data,
             credentials: 'include',

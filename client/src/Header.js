@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import {UserContext} from "./UserContext";
 
 export default function Header() {
     const {setUserInfo,userInfo} = useContext(UserContext);
     useEffect(() => {
-        fetch('http://localhost:4000/profile', {
+        fetch('https://mern-blog-2996.onrender.com/profile', {
             credentials: 'include',
         }).then(response => {
             response.json().then(userInfo => {
@@ -16,7 +16,7 @@ export default function Header() {
 
 
 function logout() { //invalidate the token, hence the logged in state will be nullified, and the user will be logged out
-    fetch('http://localhost:4000/logout', {
+    fetch('https://mern-blog-2996.onrender.com/logout', {
         credentials: 'include',
         method: 'POST',
     });
