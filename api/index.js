@@ -15,7 +15,7 @@ const fs = require('fs');
 const salt = bcrypt.genSaltSync(10);
 const secret = 'aefaefepghsesfkjbLE'
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({credentials: true, origin: 'https://bejewelled-jalebi-c91cf1.netlify.app'}));
 app.use(express.json()); //parse the json from the request
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
