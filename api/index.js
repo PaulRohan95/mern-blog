@@ -60,10 +60,15 @@ app.post('/login', async (req, res) => {
 //Profile endpoint
 
 app.get('/profile', (req, res) => {
-    const {token} = req.cookies; //grabbing token from req.cookies
+    const { token } = req.cookies; //grabbing token from req.cookies
+    if (!token) {
+        return res.status(401).json({ message: 'JWT must be provided' });
+      };
     jwt.verify(token, secret, {}, (err, info) => { //the token can only be read/verified on the backend side with the secret (defined on line 12)
         //iat is the time when the jwt is issued on. it is not mandatory to be included, but good to have should you choose to invaldate a token after a particular period of time
-        if (err) throw err;
+        if (err) {
+            return res.status(403).json({ message: 'Invalid or expired token' });
+        }
         res.json(info);
     });
 })
@@ -143,6 +148,11 @@ app.get('/post/:id', async(req, res) => {
     res.json(postDoc)
 })
 
-app.listen(4000, () => {
-    console.log(`Server is running on port http://localhost:4000`)
+// app.listen(4000, () => {
+//     console.log(`Server is running on port http://localhost:4000`)
+// });
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
